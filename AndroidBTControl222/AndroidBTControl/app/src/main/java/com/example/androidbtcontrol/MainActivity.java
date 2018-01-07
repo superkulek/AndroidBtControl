@@ -398,7 +398,13 @@ MainActivity extends ActionBarActivity {
                     if(receivedCounter){
                         String[] receivedCounterArray = strReceived.split("C");
                         receivedCounterString = receivedCounterArray[1];
-                        // Ramka.setText("Wartosc licznika: " + receivedCounterString);
+                        runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                // Ramka.setText("Wartosc licznika: " + receivedCounterString);
+                            }
+                        });
                     }
 
 
