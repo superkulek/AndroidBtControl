@@ -368,8 +368,8 @@ MainActivity extends ActionBarActivity {
         }
 
         // int twojamama = 0;
-        String checkSumString;
-        String checkSumstring2;
+        String receivedTemperatureString;
+        String receivedCounterString;
         @Override
         public void run() {
             byte[] buffer = new byte[1024];
@@ -379,28 +379,27 @@ MainActivity extends ActionBarActivity {
                 try {
                     bytes = connectedInputStream.read(buffer);
                     String strReceived = new String(buffer, 0, bytes);
-                    boolean isChecksum = strReceived.contains("SK");
-                    boolean isChecksum2 = strReceived.contains("C");
+                    boolean receivedTemperature = strReceived.contains("SK");
+                    boolean receivedCounter = strReceived.contains("C");
 
-                    if(isChecksum){
-                        if(isChecksum2){
-                            String[] checkSumArray2 = strReceived.split("C");
-                            checkSumstring2 = checkSumArray2[1];
-                        }
-
-                        String[] checkSumArray = strReceived.split("K");
-                        checkSumString = checkSumArray[1];
+                    if(receivedTemperature){
+                        String[] receivedTemperatureArray = strReceived.split("K");
+                        receivedTemperatureString = receivedTemperatureArray[1];
                         runOnUiThread(new Runnable() {
 
                             @Override
                             public void run() {
-                                Ramka.setText("Wartosc temperatury: " + checkSumString + "\n" + "Wartosc licznika: " + checkSumstring2);
-                                double currentBalanceDbl = Double.parseDouble(checkSumString);
+                                Ramka.setText("Wartosc temperatury: " + receivedTemperatureString + "\n");
+                                double currentBalanceDbl = Double.parseDouble(receivedTemperatureString);
                                 series.appendData(new DataPoint(lastX++, currentBalanceDbl), true, 10);
                             }
                         });
                     }
-                    //twojamama++;
+                    if(receivedCounter){
+                        String[] receivedCounterArray = strReceived.split("C");
+                        receivedCounterString = receivedCounterArray[1];
+                        // Ramka.setText("Wartosc licznika: " + receivedCounterString);
+                    }
 
 
                 } catch (IOException e) {
