@@ -380,7 +380,7 @@ MainActivity extends ActionBarActivity {
                     bytes = connectedInputStream.read(buffer);
                     String strReceived = new String(buffer, 0, bytes);
                     final boolean receivedTemperature = strReceived.contains("SK");
-                    final boolean receivedCounter = strReceived.contains("C");
+                    final boolean receivedCounter = strReceived.contains("XC");
 
                     if(receivedTemperature) {
                         String[] receivedTemperatureArray = strReceived.split("K");
