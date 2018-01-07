@@ -369,6 +369,7 @@ MainActivity extends ActionBarActivity {
 
         // int twojamama = 0;
         String checkSumString;
+        String checkSumstring2;
         @Override
         public void run() {
             byte[] buffer = new byte[1024];
@@ -379,15 +380,21 @@ MainActivity extends ActionBarActivity {
                     bytes = connectedInputStream.read(buffer);
                     String strReceived = new String(buffer, 0, bytes);
                     boolean isChecksum = strReceived.contains("SK");
+                    boolean isChecksum2 = strReceived.contains("C");
 
                     if(isChecksum){
+                        if(isChecksum2){
+                            String[] checkSumArray2 = strReceived.split("C");
+                            checkSumstring2 = checkSumArray2[1];
+                        }
+
                         String[] checkSumArray = strReceived.split("K");
                         checkSumString = checkSumArray[1];
                         runOnUiThread(new Runnable() {
 
                             @Override
                             public void run() {
-                                Ramka.setText("suma kontrolna: " + checkSumString);
+                                Ramka.setText("Wartosc temperatury: " + checkSumString + "\n" + "Wartosc licznika: " + checkSumstring2);
                                 double currentBalanceDbl = Double.parseDouble(checkSumString);
                                 series.appendData(new DataPoint(lastX++, currentBalanceDbl), true, 10);
                             }
