@@ -54,8 +54,7 @@ MainActivity extends ActionBarActivity {
     BluetoothAdapter bluetoothAdapter;
 
     ArrayList<BluetoothDevice> pairedDeviceArrayList;
-
-    TextView textInfo, textStatus,Ramka;
+    TextView textInfo, textStatus,Ramka,Temperature,Counter;
     ListView listViewPairedDevice;
     LinearLayout inputPane;
     EditText inputField;
@@ -122,7 +121,8 @@ MainActivity extends ActionBarActivity {
         inputField = (EditText) findViewById(R.id.input);
         btnSend = (Button) findViewById(R.id.send);
         Ramka = (TextView) findViewById(R.id.ramka);
-
+        Counter = (TextView) findViewById(R.id.counter);
+        Temperature = (TextView) findViewById(R.id.temperature);
         NewActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -389,7 +389,7 @@ MainActivity extends ActionBarActivity {
 
                             @Override
                             public void run() {
-                                Ramka.setText("Wartosc temperatury: " + receivedTemperatureString + "\n");
+                                Temperature.setText("Wartosc temperatury: " + receivedTemperatureString + "\n");
                                 double currentBalanceDbl = Double.parseDouble(receivedTemperatureString);
                                 series.appendData(new DataPoint(lastX++, currentBalanceDbl), true, 10);
                             }
@@ -402,7 +402,7 @@ MainActivity extends ActionBarActivity {
 
                             @Override
                             public void run() {
-                                // Ramka.setText("Wartosc licznika: " + receivedCounterString);
+                                Counter.setText("Wartosc licznika: " + receivedCounterString);
                             }
                         });
                     }
