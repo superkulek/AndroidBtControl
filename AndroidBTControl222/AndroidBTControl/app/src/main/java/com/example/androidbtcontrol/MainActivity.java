@@ -379,35 +379,34 @@ MainActivity extends ActionBarActivity {
                 try {
                     bytes = connectedInputStream.read(buffer);
                     String strReceived = new String(buffer, 0, bytes);
-                    boolean receivedTemperature = strReceived.contains("SK");
-                    boolean receivedCounter = strReceived.contains("C");
+                    final boolean receivedTemperature = strReceived.contains("SK");
+                    final boolean receivedCounter = strReceived.contains("C");
 
-                    if(receivedTemperature){
+                    if(receivedTemperature) {
                         String[] receivedTemperatureArray = strReceived.split("K");
                         receivedTemperatureString = receivedTemperatureArray[1];
+                    } else {
+                        if (receivedCounter) {
+                            String[] receivedCounterArray = strReceived.split("C");
+                            receivedCounterString = receivedCounterArray[1];
+                        }
+                    }
                         runOnUiThread(new Runnable() {
 
                             @Override
                             public void run() {
-                                Temperature.setText("Wartosc temperatury: " + receivedTemperatureString + "\n");
-                                double currentBalanceDbl = Double.parseDouble(receivedTemperatureString);
-                                series.appendData(new DataPoint(lastX++, currentBalanceDbl), true, 10);
+                                if(receivedCounter){
+
+                                    Counter.setText("Wartosc licznika: " + receivedCounterString);
+                                } else {
+                                if(receivedTemperature){
+                                    Temperature.setText("Wartosc temperatury: " + receivedTemperatureString + "\n");
+                                    double currentBalanceDbl = Double.parseDouble(receivedTemperatureString);
+                                    series.appendData(new DataPoint(lastX++, currentBalanceDbl), true, 10);
+                                }
+                                }
                             }
                         });
-                    }
-                    if(receivedCounter){
-                        String[] receivedCounterArray = strReceived.split("C");
-                        receivedCounterString = receivedCounterArray[1];
-                        runOnUiThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                Counter.setText("Wartosc licznika: " + receivedCounterString);
-                            }
-                        });
-                    }
-
-
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
