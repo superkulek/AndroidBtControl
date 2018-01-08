@@ -26,7 +26,7 @@
     <ListView
         android:id="@+id/pairedlist"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="60dp"
         android:visibility="visible"/>
 
     <ScrollView
@@ -136,7 +136,7 @@
                 android:layout_below="@+id/dd5"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
-                android:hint="ramka"
+                android:hint="tekst"
                 android:textSize="20dp" />
 
             <TextView

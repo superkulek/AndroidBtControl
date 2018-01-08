@@ -19,6 +19,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -52,7 +53,7 @@ MainActivity extends ActionBarActivity {
     private static final int REQUEST_ENABLE_BT = 1;
     private static final Random RANDOM = new Random();
     private LineGraphSeries<DataPoint> series;
-    private int lastX = 0;
+    private  int lastX = 0;
     BluetoothAdapter bluetoothAdapter;
 
     ArrayList<BluetoothDevice> pairedDeviceArrayList;
@@ -311,15 +312,17 @@ MainActivity extends ActionBarActivity {
             }
 
             if (success) {
+
                 //connect successful
                 final String msgconnected = "connect successful:\n"
                         + "BluetoothSocket: " + bluetoothSocket + "\n"
                         + "BluetoothDevice: " + bluetoothDevice;
-
+                Log.d("MainActivity"," if (success) {  "+msgconnected);
                 runOnUiThread(new Runnable() {
 
                     @Override
                     public void run() {
+                        Log.d("MainActivity"," runOnUiThread(new Runnable()");
                         textStatus.setText(msgconnected);
 
                         listViewPairedDevice.setVisibility(View.GONE);
@@ -356,6 +359,7 @@ MainActivity extends ActionBarActivity {
     after connected
      */
     private class ThreadConnected extends Thread {
+
         private final BluetoothSocket connectedBluetoothSocket;
         private final InputStream connectedInputStream;
         private final OutputStream connectedOutputStream;
@@ -388,12 +392,51 @@ MainActivity extends ActionBarActivity {
 
             while (true) {
                 try {
+
+                   // R100%100%100%1000#
+
+
+                    Log.d("MainActivity"," Odczyt ramki");
                     bytes = connectedInputStream.read(buffer);
                     String strReceived = new String(buffer, 0, bytes);
-                    final boolean receivedTemperature = strReceived.contains("SK");
-                    final boolean receivedCounter = strReceived.contains("XC");
-                    final boolean receivedOutput = strReceived.contains("GO");
 
+                    int lengthRamka = (int) strReceived.length();
+                    Log.d("MainActivity","dlugosc ramki "+lengthRamka);
+                    char[] tableRamka;
+                    char[] InputValue = new char[4];
+                    char[] OutputValue = new char[4];
+                    char[] CounterValue = new char[4];
+                    char[] TemperatureValue = new char[5];
+                    tableRamka = strReceived.toCharArray();
+                    if (tableRamka[0] == 'R' && tableRamka[4] == '%' && tableRamka[8] == '%' && tableRamka[12] == '%' && tableRamka[17] == '#'  ) {
+                        Log.d("MainActivity","ramka jest poprawna");
+                        int i;
+                        for (i = 0; i < 3;i++) {
+                             InputValue[i] = tableRamka[i + 1];
+                             OutputValue[i] = tableRamka[i + 5];
+                            CounterValue[i] = tableRamka[i + 9];
+                        }
+                        for (i=0;i<4;i++){
+                            TemperatureValue[i] = tableRamka[i+13];
+                        }
+                        receivedTemperatureString = new String (TemperatureValue);
+                        receivedOutputString = new String (OutputValue);
+                        receivedCounterString= new String(CounterValue);
+                        Integer receivedTemperatureInteger = (Integer.valueOf(receivedTemperatureString)/10)-100;
+                        Integer receivedOutputInteger = Integer.valueOf(receivedOutputString)-100;
+                        Integer receivedCounterInteger = Integer.valueOf(receivedCounterString)-100;
+                        receivedTemperatureString = Integer.toString(receivedTemperatureInteger);
+                        receivedOutputString = Integer.toString(receivedOutputInteger);
+                        receivedCounterString = Integer.toString(receivedCounterInteger);
+
+                    }
+
+
+
+                   // final boolean receivedTemperature = strReceived.contains("SK");
+                   // final boolean receivedCounter = strReceived.contains("XC");
+                   // final boolean receivedOutput = strReceived.contains("GO");
+/*
                     if(receivedTemperature) {
                         String[] receivedTemperatureArray = strReceived.split("K");
                         receivedTemperatureString = receivedTemperatureArray[1];
@@ -407,21 +450,22 @@ MainActivity extends ActionBarActivity {
                                 receivedOutputString = receivedOutputArray[1];
                             }
                         }
-                    }
+                    } */
                         runOnUiThread(new Runnable() {
 
                             @Override
                             public void run() {
-                                if(receivedCounter){
+                                Log.d("MainActivity"," runOnUiThread(new Runnable()");
+
 
                                     Counter.setText("Wartosc licznika: " + receivedCounterString);
-                                } else {
-                                if(receivedTemperature){
                                     Temperature.setText("Wartosc temperatury: " + receivedTemperatureString + "\n");
                                     double currentBalanceDbl = Double.parseDouble(receivedTemperatureString);
                                     series.appendData(new DataPoint(lastX++, currentBalanceDbl), true, 10);
-                                } // zle zle zle
-                                } if (receivedOutput){
+
+                                /* else {
+                                if (receivedOutput){
+                                    Log.d("MainActivity", receivedOutputString);
                                     int receivedOutputInt = Integer.parseInt(receivedOutputString);
                                     int printOutputInt1 = receivedOutputInt & 1;
                                     int printOutputInt2 = receivedOutputInt & 2;
@@ -448,8 +492,8 @@ MainActivity extends ActionBarActivity {
                                     if(printOutputInt8 > 0) btnD8.setBackgroundColor(Color.GREEN);
                                     else btnD8.setBackgroundColor(Color.RED);
 
-                                }
-                            }
+                                }*/}
+                           // }
                         });
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
