@@ -28,9 +28,11 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:visibility="visible"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:id="@+id/inputpane"
             android:layout_width="match_parent"
@@ -41,37 +43,48 @@
             <EditText
                 android:id="@+id/input"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
+
             <Button
                 android:id="@+id/send"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Wyślij"/>
+                android:text="Wyślij" />
+
             <Button
+                android:id="@+id/newactivity"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
-                android:text="Inne zmienne"
-                android:id="@+id/newactivity"
-                android:layout_below="@+id/send"/>
+                android:layout_below="@+id/send"
+                android:text="Inne zmienne" />
+
+            <Button
+                android:id="@+id/dd2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@android:color/holo_red_light"
+                android:text="d2" />
 
             <TextView
                 android:id="@+id/ramka"
                 android:layout_width="match_parent"
+                android:layout_height="70dp"
                 android:hint="ramka"
-                android:textSize="20dp"
-                android:layout_height="70dp"/>
+                android:textSize="20dp" />
+
             <TextView
                 android:id="@+id/counter"
                 android:layout_width="match_parent"
+                android:layout_height="70dp"
                 android:hint="..."
-                android:textSize="20dp"
-                android:layout_height="70dp"/>
+                android:textSize="20dp" />
+
             <TextView
                 android:id="@+id/temperature"
                 android:layout_width="match_parent"
+                android:layout_height="70dp"
                 android:hint="..."
-                android:textSize="20dp"
-                android:layout_height="70dp"/>
+                android:textSize="20dp" />
 
             <com.jjoe64.graphview.GraphView
                 android:id="@+id/graph"

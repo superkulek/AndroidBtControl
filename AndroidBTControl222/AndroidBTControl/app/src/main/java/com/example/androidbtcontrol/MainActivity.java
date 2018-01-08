@@ -16,6 +16,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -58,7 +59,7 @@ MainActivity extends ActionBarActivity {
     ListView listViewPairedDevice;
     LinearLayout inputPane;
     EditText inputField;
-    Button btnSend, NewActivity,REF;
+    Button btnSend, NewActivity,btnD2;
     ArrayAdapter<BluetoothDevice> pairedDeviceAdapter;
     private UUID myUUID;
     private final String UUID_STRING_WELL_KNOWN_SPP =
@@ -123,6 +124,7 @@ MainActivity extends ActionBarActivity {
         Ramka = (TextView) findViewById(R.id.ramka);
         Counter = (TextView) findViewById(R.id.counter);
         Temperature = (TextView) findViewById(R.id.temperature);
+        btnD2 = (Button) findViewById(R.id.dd2);
         NewActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -370,6 +372,7 @@ MainActivity extends ActionBarActivity {
         // int twojamama = 0;
         String receivedTemperatureString;
         String receivedCounterString;
+        String receivedOutputString;
         @Override
         public void run() {
             byte[] buffer = new byte[1024];
@@ -381,6 +384,7 @@ MainActivity extends ActionBarActivity {
                     String strReceived = new String(buffer, 0, bytes);
                     final boolean receivedTemperature = strReceived.contains("SK");
                     final boolean receivedCounter = strReceived.contains("XC");
+                    final boolean receivedOutput = strReceived.contains("GO");
 
                     if(receivedTemperature) {
                         String[] receivedTemperatureArray = strReceived.split("K");
@@ -389,6 +393,11 @@ MainActivity extends ActionBarActivity {
                         if (receivedCounter) {
                             String[] receivedCounterArray = strReceived.split("C");
                             receivedCounterString = receivedCounterArray[1];
+                        } else {
+                            if(receivedOutput){
+                                String[] receivedOutputArray = strReceived.split("O");
+                                receivedOutputString = receivedOutputArray[1];
+                            }
                         }
                     }
                         runOnUiThread(new Runnable() {
@@ -403,7 +412,11 @@ MainActivity extends ActionBarActivity {
                                     Temperature.setText("Wartosc temperatury: " + receivedTemperatureString + "\n");
                                     double currentBalanceDbl = Double.parseDouble(receivedTemperatureString);
                                     series.appendData(new DataPoint(lastX++, currentBalanceDbl), true, 10);
-                                }
+                                } // zle zle zle
+                                } if (receivedOutput){
+                                    int receivedOutputInt = Integer.parseInt(receivedOutputString);
+                                    int printOutputInt = receivedOutputInt & 2;
+                                    if(printOutputInt > 0) btnD2.setBackgroundColor(Color.GREEN);
                                 }
                             }
                         });
