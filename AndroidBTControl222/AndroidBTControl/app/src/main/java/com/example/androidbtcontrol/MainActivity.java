@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,9 +58,9 @@ MainActivity extends ActionBarActivity {
     ArrayList<BluetoothDevice> pairedDeviceArrayList;
     TextView textInfo, textStatus,Ramka,Temperature,Counter;
     ListView listViewPairedDevice;
-    LinearLayout inputPane;
+    RelativeLayout inputPane;
     EditText inputField;
-    Button btnSend, NewActivity,btnD2;
+    Button btnSend, NewActivity,btnD2,btnD5,btnD1,btnD3,btnD4,btnD6,btnD7,btnD8;
     ArrayAdapter<BluetoothDevice> pairedDeviceAdapter;
     private UUID myUUID;
     private final String UUID_STRING_WELL_KNOWN_SPP =
@@ -118,13 +119,20 @@ MainActivity extends ActionBarActivity {
         textStatus = (TextView) findViewById(R.id.status);
         listViewPairedDevice = (ListView) findViewById(R.id.pairedlist);
         NewActivity = (Button) findViewById(R.id.newactivity);
-        inputPane = (LinearLayout) findViewById(R.id.inputpane);
+        inputPane = (RelativeLayout) findViewById(R.id.inputpane);
         inputField = (EditText) findViewById(R.id.input);
         btnSend = (Button) findViewById(R.id.send);
         Ramka = (TextView) findViewById(R.id.ramka);
         Counter = (TextView) findViewById(R.id.counter);
         Temperature = (TextView) findViewById(R.id.temperature);
+        btnD1 = (Button) findViewById(R.id.dd1);
         btnD2 = (Button) findViewById(R.id.dd2);
+        btnD3 = (Button) findViewById(R.id.dd3);
+        btnD4 = (Button) findViewById(R.id.dd4);
+        btnD5 = (Button) findViewById(R.id.dd5);
+        btnD6 = (Button) findViewById(R.id.dd6);
+        btnD7 = (Button) findViewById(R.id.dd7);
+        btnD8 = (Button) findViewById(R.id.dd8);
         NewActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -415,8 +423,11 @@ MainActivity extends ActionBarActivity {
                                 } // zle zle zle
                                 } if (receivedOutput){
                                     int receivedOutputInt = Integer.parseInt(receivedOutputString);
-                                    int printOutputInt = receivedOutputInt & 2;
-                                    if(printOutputInt > 0) btnD2.setBackgroundColor(Color.GREEN);
+                                    int printOutputInt2 = receivedOutputInt & 2;
+                                    int printOutputInt5 = receivedOutputInt & 5;
+                                    if(printOutputInt2 > 0) btnD2.setBackgroundColor(Color.GREEN);
+                                    if(printOutputInt5 > 0) btnD5.setBackgroundColor(Color.GREEN);
+
                                 }
                             }
                         });

@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/inputpane"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -47,6 +47,7 @@
 
             <Button
                 android:id="@+id/send"
+                android:layout_below="@+id/input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Wyślij" />
@@ -59,14 +60,80 @@
                 android:text="Inne zmienne" />
 
             <Button
+                android:id="@+id/dd1"
+                android:layout_below="@+id/newactivity"
+                android:layout_marginLeft="10dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@android:color/holo_red_light"
+                android:text="d1" />
+
+            <Button
                 android:id="@+id/dd2"
+                android:layout_toRightOf="@+id/dd1"
+                android:layout_below="@+id/newactivity"
+                android:layout_marginLeft="10dp"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@android:color/holo_red_light"
                 android:text="d2" />
-
+            <Button
+            android:id="@+id/dd3"
+            android:layout_toRightOf="@+id/dd2"
+            android:layout_below="@+id/newactivity"
+            android:layout_marginLeft="10dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@android:color/holo_red_light"
+            android:text="d3" />
+            <Button
+                android:id="@+id/dd4"
+                android:layout_toRightOf="@+id/dd3"
+                android:layout_below="@+id/newactivity"
+                android:layout_marginLeft="10dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@android:color/holo_red_light"
+                android:text="d4" />
+            <Button
+                android:id="@+id/dd5"
+                android:layout_toRightOf="@+id/dd4"
+                android:layout_below="@+id/newactivity"
+                android:layout_marginLeft="10dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@android:color/holo_red_light"
+                android:text="d5" />
+            <Button
+                android:id="@+id/dd6"
+                android:layout_toRightOf="@+id/dd5"
+                android:layout_below="@+id/newactivity"
+                android:layout_marginLeft="10dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@android:color/holo_red_light"
+                android:text="d6" />
+            <Button
+                android:id="@+id/dd7"
+                android:layout_toRightOf="@+id/dd6"
+                android:layout_below="@+id/newactivity"
+                android:layout_marginLeft="10dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@android:color/holo_red_light"
+                android:text="d7" />
+            <Button
+                android:id="@+id/dd8"
+                android:layout_toRightOf="@+id/dd7"
+                android:layout_below="@+id/newactivity"
+                android:layout_marginLeft="10dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@android:color/holo_red_light"
+                android:text="d8" />
             <TextView
                 android:id="@+id/ramka"
+                android:layout_below="@+id/dd5"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:hint="ramka"
@@ -74,6 +141,7 @@
 
             <TextView
                 android:id="@+id/counter"
+                android:layout_below="@+id/ramka"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:hint="..."
@@ -81,6 +149,7 @@
 
             <TextView
                 android:id="@+id/temperature"
+                android:layout_below="@id/counter"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:hint="..."
@@ -88,10 +157,12 @@
 
             <com.jjoe64.graphview.GraphView
                 android:id="@+id/graph"
+                android:layout_below="@id/temperature"
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="300dp" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
 
     </ScrollView>
