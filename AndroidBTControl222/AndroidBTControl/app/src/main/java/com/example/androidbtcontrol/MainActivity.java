@@ -423,10 +423,30 @@ MainActivity extends ActionBarActivity {
                                 } // zle zle zle
                                 } if (receivedOutput){
                                     int receivedOutputInt = Integer.parseInt(receivedOutputString);
+                                    int printOutputInt1 = receivedOutputInt & 1;
                                     int printOutputInt2 = receivedOutputInt & 2;
-                                    int printOutputInt5 = receivedOutputInt & 5;
+                                    int printOutputInt3 = receivedOutputInt & 4;
+                                    int printOutputInt4 = receivedOutputInt & 8;
+                                    int printOutputInt5 = receivedOutputInt & 16;
+                                    int printOutputInt6 = receivedOutputInt & 32;
+                                    int printOutputInt7 = receivedOutputInt & 64;
+                                    int printOutputInt8 = receivedOutputInt & 128;
+                                    if(printOutputInt1 > 0) btnD1.setBackgroundColor(Color.GREEN);
+                                    else btnD1.setBackgroundColor(Color.RED);
                                     if(printOutputInt2 > 0) btnD2.setBackgroundColor(Color.GREEN);
+                                    else btnD2.setBackgroundColor(Color.RED);
+                                    if(printOutputInt3 > 0) btnD3.setBackgroundColor(Color.GREEN);
+                                    else btnD3.setBackgroundColor(Color.RED);
+                                    if(printOutputInt4 > 0) btnD4.setBackgroundColor(Color.GREEN);
+                                    else btnD4.setBackgroundColor(Color.RED);
                                     if(printOutputInt5 > 0) btnD5.setBackgroundColor(Color.GREEN);
+                                    else btnD5.setBackgroundColor(Color.RED);
+                                    if(printOutputInt6 > 0) btnD6.setBackgroundColor(Color.GREEN);
+                                    else btnD6.setBackgroundColor(Color.RED);
+                                    if(printOutputInt7 > 0) btnD7.setBackgroundColor(Color.GREEN);
+                                    else btnD7.setBackgroundColor(Color.RED);
+                                    if(printOutputInt8 > 0) btnD8.setBackgroundColor(Color.GREEN);
+                                    else btnD8.setBackgroundColor(Color.RED);
 
                                 }
                             }
