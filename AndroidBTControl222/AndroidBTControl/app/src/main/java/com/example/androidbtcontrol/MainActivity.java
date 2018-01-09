@@ -10,6 +10,7 @@ http://android-er.blogspot.com/2014/12/bluetooth-communication-between-android.h
  */
 
 package com.example.androidbtcontrol;
+
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -19,6 +20,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -44,10 +47,8 @@ import java.util.Set;
 import java.util.UUID;
 
 
-
-
 public class
-MainActivity extends ActionBarActivity {
+MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_ENABLE_BT = 1;
     private static final Random RANDOM = new Random();
@@ -56,11 +57,11 @@ MainActivity extends ActionBarActivity {
     BluetoothAdapter bluetoothAdapter;
 
     ArrayList<BluetoothDevice> pairedDeviceArrayList;
-    TextView textInfo, textStatus,Ramka,Temperature,Counter;
+    TextView textInfo, textStatus, Ramka, Temperature, Counter;
     ListView listViewPairedDevice;
     RelativeLayout inputPane;
     EditText inputField;
-    Button btnSend, NewActivity,btnD2,btnD5,btnD1,btnD3,btnD4,btnD6,btnD7,btnD8;
+    Button btnSend, NewActivity, btnD2, btnD5, btnD1, btnD3, btnD4, btnD6, btnD7, btnD8;
     ArrayAdapter<BluetoothDevice> pairedDeviceAdapter;
     private UUID myUUID;
     private final String UUID_STRING_WELL_KNOWN_SPP =
@@ -68,8 +69,10 @@ MainActivity extends ActionBarActivity {
 
     ThreadConnectBTdevice myThreadConnectBTdevice;
     ThreadConnected myThreadConnected;
+
     @Override
     public void onResume() {
+        Log.d("Main", "onResume()");
         super.onResume();  // Always call the superclass method first
         String ramka_ = Inne_zmienne.getDana1() + " " + Inne_zmienne.getDana2() + " " + Inne_zmienne.getDana3() + " " + Inne_zmienne.getDana4() + " " + Inne_zmienne.getDana5() + " " + Inne_zmienne.getDana6();
         Ramka.setText(ramka_);
@@ -102,6 +105,7 @@ MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("Main", "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         GraphView graph = (GraphView) findViewById(R.id.graph);
@@ -141,8 +145,6 @@ MainActivity extends ActionBarActivity {
 
             }
         });
-
-
 
 
         btnSend.setOnClickListener(new View.OnClickListener() {
@@ -381,76 +383,160 @@ MainActivity extends ActionBarActivity {
         String receivedTemperatureString;
         String receivedCounterString;
         String receivedOutputString;
+
         @Override
         public void run() {
             byte[] buffer = new byte[1024];
             int bytes;
 
+
             while (true) {
                 try {
-                    bytes = connectedInputStream.read(buffer);
-                    String strReceived = new String(buffer, 0, bytes);
-                    final boolean receivedTemperature = strReceived.contains("SK");
-                    final boolean receivedCounter = strReceived.contains("XC");
-                    final boolean receivedOutput = strReceived.contains("GO");
+                    if (buffer != null && buffer.length != 0) {
+                        bytes = connectedInputStream.read(buffer);
 
-                    if(receivedTemperature) {
-                        String[] receivedTemperatureArray = strReceived.split("K");
-                        receivedTemperatureString = receivedTemperatureArray[1];
-                    } else {
-                        if (receivedCounter) {
-                            String[] receivedCounterArray = strReceived.split("C");
-                            receivedCounterString = receivedCounterArray[1];
-                        } else {
-                            if(receivedOutput){
-                                String[] receivedOutputArray = strReceived.split("O");
-                                receivedOutputString = receivedOutputArray[1];
+                        String strReceived = new String(buffer, 0, bytes);
+
+                        //I580G102X100S3020#
+                        //012345678901234567
+
+                        char[] data_BT;
+                        data_BT = strReceived.toCharArray();
+                        if (data_BT[0] == 'I' && data_BT[4] == 'G' && data_BT[8] == 'X' && data_BT[12] == 'S' && data_BT[17] == '#') {
+
+                            char[] A = new char[3];
+                            char[] B = new char[3];
+                            char[] C = new char[3];
+                            char[] D = new char[4];
+
+                            for (int i = 0; i < 3; i++) {
+                                A[i] = data_BT[i + 1];
+                                B[i] = data_BT[i + 5];
+                                C[i] = data_BT[i + 9];
                             }
+                            for (int i = 0; i < 4; i++) {
+
+                                D[i] = data_BT[i + 13];
+                            }
+                           // A[3]='\n';
+                           // B[3]='\n';
+                           // C[3]=' ';
+                           // D[4]='\n';
+                            receivedTemperatureString = new String(D);
+                            double Dd = Double.valueOf(receivedTemperatureString);
+                            Dd = (Dd/10) - 100;
+                            receivedTemperatureString=String.valueOf(Dd);
+                            Log.d("Main", "receivedTemperatureString " + receivedTemperatureString);
+
+                            receivedCounterString = new String(C);
+                            receivedCounterString.replaceAll(System.getProperty("line.separator"),"");
+                            Integer Cc = Integer.parseInt(receivedCounterString);
+                            Cc = Cc  - 100;
+                            receivedCounterString=String.valueOf(Cc);
+                            Log.d("Main", " receivedCounterString " +  receivedCounterString);
+
+                            receivedOutputString = new String(B);
+                            Integer Bb = Integer.valueOf(receivedOutputString);
+                            Bb = Bb - 100;
+                            receivedOutputString=String.valueOf(Bb);
+                            Log.d("Main", " receivedOutputString " +  receivedOutputString);
+
+                            Log.d("Main", " RAMKA :" + receivedTemperatureString + " " + receivedCounterString + " " + receivedOutputString);
+
+
                         }
-                    }
+/*
+
+                        final boolean receivedTemperature = strReceived.contains("SK");
+
+                        final boolean receivedCounter = strReceived.contains("XC");
+
+                        final boolean receivedOutput = strReceived.contains("GO");
+
+                        Log.d("Main", "receivedOutput :" + receivedOutput);
+
+                       // if (receivedTemperature) {
+                            Log.d("Main", "receivedTemperature :" + receivedTemperature);
+                            String[] receivedTemperatureArray = strReceived.split("K");
+                            receivedTemperatureString = receivedTemperatureArray[1];
+                        //}
+                       // else {
+
+                          //  if (receivedCounter) {
+                                Log.d("Main", "receivedCounter2 :" + receivedCounter);
+                                String[] receivedCounterArray = strReceived.split("C");
+                                receivedCounterString = receivedCounterArray[1];
+                         //   }
+                         //   else {
+                               // if (receivedOutput) {
+                                    Log.d("Main", "receivedOutput2 :" + receivedOutput);
+                                    String[] receivedOutputArray = strReceived.split("O");
+                                    //if(receivedOutputString.contains("0") ||receivedOutputString.contains("1") || receivedOutputString.contains("2")|| receivedOutputString.contains("3")|| receivedOutputString.contains("4")|| receivedOutputString.contains("5")|| receivedOutputString.contains("6")|| receivedOutputString.contains("7")|| receivedOutputString.contains("8")|| receivedOutputString.contains("9")  )
+                                    receivedOutputString = receivedOutputArray[1];
+                                    receivedOutputString = receivedOutputString.replace("\r\n", "");
+                               // }
+                        // /   }
+                        //}*/
                         runOnUiThread(new Runnable() {
+
 
                             @Override
                             public void run() {
-                                if(receivedCounter){
+                                // if (receivedCounter) {
+                                Log.d("Main", " Counter.setText receivedCounterString); :" + receivedCounterString);
+                                Counter.setText("Wartosc licznika: " + receivedCounterString);
+                                //  }
+                                // else {
+                                // if (receivedTemperature) {
+                                Log.d("Main", " Temperature.setText:" + receivedTemperatureString);
 
-                                    Counter.setText("Wartosc licznika: " + receivedCounterString);
-                                } else {
-                                if(receivedTemperature){
-                                    Temperature.setText("Wartosc temperatury: " + receivedTemperatureString + "\n");
-                                    double currentBalanceDbl = Double.parseDouble(receivedTemperatureString);
-                                    series.appendData(new DataPoint(lastX++, currentBalanceDbl), true, 10);
-                                } // zle zle zle
-                                } if (receivedOutput){
-                                    int receivedOutputInt = Integer.parseInt(receivedOutputString);
-                                    int printOutputInt1 = receivedOutputInt & 1;
-                                    int printOutputInt2 = receivedOutputInt & 2;
-                                    int printOutputInt3 = receivedOutputInt & 4;
-                                    int printOutputInt4 = receivedOutputInt & 8;
-                                    int printOutputInt5 = receivedOutputInt & 16;
-                                    int printOutputInt6 = receivedOutputInt & 32;
-                                    int printOutputInt7 = receivedOutputInt & 64;
-                                    int printOutputInt8 = receivedOutputInt & 128;
-                                    if(printOutputInt1 > 0) btnD1.setBackgroundColor(Color.GREEN);
-                                    else btnD1.setBackgroundColor(Color.RED);
-                                    if(printOutputInt2 > 0) btnD2.setBackgroundColor(Color.GREEN);
-                                    else btnD2.setBackgroundColor(Color.RED);
-                                    if(printOutputInt3 > 0) btnD3.setBackgroundColor(Color.GREEN);
-                                    else btnD3.setBackgroundColor(Color.RED);
-                                    if(printOutputInt4 > 0) btnD4.setBackgroundColor(Color.GREEN);
-                                    else btnD4.setBackgroundColor(Color.RED);
-                                    if(printOutputInt5 > 0) btnD5.setBackgroundColor(Color.GREEN);
-                                    else btnD5.setBackgroundColor(Color.RED);
-                                    if(printOutputInt6 > 0) btnD6.setBackgroundColor(Color.GREEN);
-                                    else btnD6.setBackgroundColor(Color.RED);
-                                    if(printOutputInt7 > 0) btnD7.setBackgroundColor(Color.GREEN);
-                                    else btnD7.setBackgroundColor(Color.RED);
-                                    if(printOutputInt8 > 0) btnD8.setBackgroundColor(Color.GREEN);
-                                    else btnD8.setBackgroundColor(Color.RED);
+                                Temperature.setText("Wartosc temperatury: " + receivedTemperatureString + "\n");
+                                double currentBalanceDbl = Double.parseDouble(receivedTemperatureString);
+                                if (lastX >= 20000) lastX = 0;
+                                else lastX++;
+                                series.appendData(new DataPoint(lastX, currentBalanceDbl), true, 10);
+                                // } // zle zle zle
+                                //  }
+                                // if (receivedOutput) {
+                                //   Log.d("Main", "receivedOutput:" + receivedOutput);
 
-                                }
+
+                                char[] printOutputInt = new char[8];
+                                Log.d("Main", " receivedOutputInt = Integer.valueOf(receivedOutputString);" + receivedTemperatureString);
+                                int receivedOutputInt = Integer.valueOf(receivedOutputString);
+                                for (int i = 0; i < 8; ++i)
+                                    printOutputInt[i] = (char) (receivedOutputInt & (1 << i));
+
+                                if (printOutputInt[0] > 0)
+                                    btnD1.setBackgroundColor(Color.GREEN);
+                                else btnD1.setBackgroundColor(Color.RED);
+                                if (printOutputInt[1] > 0)
+                                    btnD2.setBackgroundColor(Color.GREEN);
+                                else btnD2.setBackgroundColor(Color.RED);
+                                if (printOutputInt[2] > 0)
+                                    btnD3.setBackgroundColor(Color.GREEN);
+                                else btnD3.setBackgroundColor(Color.RED);
+                                if (printOutputInt[3] > 0)
+                                    btnD4.setBackgroundColor(Color.GREEN);
+                                else btnD4.setBackgroundColor(Color.RED);
+                                if (printOutputInt[4] > 0)
+                                    btnD5.setBackgroundColor(Color.GREEN);
+                                else btnD5.setBackgroundColor(Color.RED);
+                                if (printOutputInt[5] > 0)
+                                    btnD6.setBackgroundColor(Color.GREEN);
+                                else btnD6.setBackgroundColor(Color.RED);
+                                if (printOutputInt[6] > 0)
+                                    btnD7.setBackgroundColor(Color.GREEN);
+                                else btnD7.setBackgroundColor(Color.RED);
+                                if (printOutputInt[7] > 0)
+                                    btnD8.setBackgroundColor(Color.GREEN);
+                                else btnD8.setBackgroundColor(Color.RED);
+
+                                // }
                             }
                         });
+
+                    }
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -486,6 +572,7 @@ MainActivity extends ActionBarActivity {
             }
         }
     }
+
     private void addEntry() {
         // here, we choose to display max 10 points on the viewport and we scroll to end
         series.appendData(new DataPoint(lastX++, RANDOM.nextDouble() * 10d), true, 10);

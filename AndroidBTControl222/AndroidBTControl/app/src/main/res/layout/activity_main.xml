@@ -66,7 +66,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@android:color/holo_red_light"
-                android:text="d1" />
+                android:text="Q1" />
 
             <Button
                 android:id="@+id/dd2"
@@ -76,16 +76,16 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@android:color/holo_red_light"
-                android:text="d2" />
+                android:text="Q2" />
             <Button
-            android:id="@+id/dd3"
-            android:layout_toRightOf="@+id/dd2"
-            android:layout_below="@+id/newactivity"
-            android:layout_marginLeft="10dp"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@android:color/holo_red_light"
-            android:text="d3" />
+                android:id="@+id/dd3"
+                android:layout_toRightOf="@+id/dd2"
+                android:layout_below="@+id/newactivity"
+                android:layout_marginLeft="10dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@android:color/holo_red_light"
+                android:text="Q3" />
             <Button
                 android:id="@+id/dd4"
                 android:layout_toRightOf="@+id/dd3"
@@ -94,7 +94,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@android:color/holo_red_light"
-                android:text="d4" />
+                android:text="Q4" />
             <Button
                 android:id="@+id/dd5"
                 android:layout_toRightOf="@+id/dd4"
@@ -103,7 +103,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@android:color/holo_red_light"
-                android:text="d5" />
+                android:text="Q5" />
             <Button
                 android:id="@+id/dd6"
                 android:layout_toRightOf="@+id/dd5"
@@ -112,7 +112,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@android:color/holo_red_light"
-                android:text="d6" />
+                android:text="Q6" />
             <Button
                 android:id="@+id/dd7"
                 android:layout_toRightOf="@+id/dd6"
@@ -121,7 +121,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@android:color/holo_red_light"
-                android:text="d7" />
+                android:text="Q7" />
             <Button
                 android:id="@+id/dd8"
                 android:layout_toRightOf="@+id/dd7"
@@ -130,7 +130,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@android:color/holo_red_light"
-                android:text="d8" />
+                android:text="Q8" />
             <TextView
                 android:id="@+id/ramka"
                 android:layout_below="@+id/dd5"

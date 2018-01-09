@@ -12,6 +12,7 @@ package com.example.androidbtcontrol;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -56,9 +57,12 @@ private static String Edit_1,Edit_2,Edit_3,Edit_4,Edit_5,Edit_6;
     }
 
     public static String getDana1() {
+
+        Log.d("Inne_zmienne","Edit1");
         return Edit_1;
     }
     public static String getDana2() {
+        Log.d("Inne_zmienne","Edit2");
         return Edit_2;
     }
     public static String getDana3() {
