@@ -27,9 +27,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +41,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
@@ -57,11 +58,13 @@ MainActivity extends AppCompatActivity {
     BluetoothAdapter bluetoothAdapter;
 
     ArrayList<BluetoothDevice> pairedDeviceArrayList;
-    TextView textInfo, textStatus, Ramka, Temperature, Counter;
+    TextView textInfo, textStatus, Ramka, Temperature, Counter,Cartoons;
     ListView listViewPairedDevice;
     RelativeLayout inputPane;
     EditText inputField;
-    Button btnSend, NewActivity, btnD2, btnD5, btnD1, btnD3, btnD4, btnD6, btnD7, btnD8;
+    Button Database,btnSend, NewActivity, btnD1, btnD2, btnD3, btnD4, btnD5, btnD6, btnD7, btnD8,
+            btnDD1, btnDD2, btnDD3, btnDD4, btnDD5, btnDD6, btnDD7, btnDD8 ;
+    Switch Switch1;
     ArrayAdapter<BluetoothDevice> pairedDeviceAdapter;
     private UUID myUUID;
     private final String UUID_STRING_WELL_KNOWN_SPP =
@@ -76,29 +79,6 @@ MainActivity extends AppCompatActivity {
         super.onResume();  // Always call the superclass method first
         String ramka_ = Inne_zmienne.getDana1() + " " + Inne_zmienne.getDana2() + " " + Inne_zmienne.getDana3() + " " + Inne_zmienne.getDana4() + " " + Inne_zmienne.getDana5() + " " + Inne_zmienne.getDana6();
         Ramka.setText(ramka_);
-//        new Thread(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                // we add 100 new entries
-//                for (int i = 0; i < 100; i++) {
-//                    runOnUiThread(new Runnable() {
-//
-//                        @Override
-//                        public void run() {
-//                            addEntry();
-//                        }
-//                    });
-//
-//                    // sleep to slow down the add of entries
-//                    try {
-//                        Thread.sleep(600);
-//                    } catch (InterruptedException e) {
-//                        // manage error ...
-//                    }
-//                }
-//            }
-//        }).start();
 
     }
 
@@ -129,6 +109,9 @@ MainActivity extends AppCompatActivity {
         Ramka = (TextView) findViewById(R.id.ramka);
         Counter = (TextView) findViewById(R.id.counter);
         Temperature = (TextView) findViewById(R.id.temperature);
+        Cartoons = (TextView) findViewById(R.id.cartoons);
+        Switch1 = (Switch) findViewById(R.id.switch1);
+        Database = (Button) findViewById(R.id.database);
         btnD1 = (Button) findViewById(R.id.dd1);
         btnD2 = (Button) findViewById(R.id.dd2);
         btnD3 = (Button) findViewById(R.id.dd3);
@@ -137,6 +120,15 @@ MainActivity extends AppCompatActivity {
         btnD6 = (Button) findViewById(R.id.dd6);
         btnD7 = (Button) findViewById(R.id.dd7);
         btnD8 = (Button) findViewById(R.id.dd8);
+
+        btnDD1 = (Button) findViewById(R.id.ddd1);
+        btnDD2 = (Button) findViewById(R.id.ddd2);
+        btnDD3 = (Button) findViewById(R.id.ddd3);
+        btnDD4 = (Button) findViewById(R.id.ddd4);
+        btnDD5 = (Button) findViewById(R.id.ddd5);
+        btnDD6 = (Button) findViewById(R.id.ddd6);
+        btnDD7 = (Button) findViewById(R.id.ddd7);
+        btnDD8 = (Button) findViewById(R.id.ddd8);
         NewActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,9 +144,10 @@ MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (myThreadConnected != null) {
-
-                    byte[] bytesToSend = inputField.getText().toString().getBytes();
+                   String dataAAAA=  "*"+inputField.getText().toString()+"#";
+                    byte[] bytesToSend =dataAAAA.getBytes();
                     myThreadConnected.write(bytesToSend);
+
                 }
             }
         });
@@ -167,7 +160,7 @@ MainActivity extends AppCompatActivity {
             return;
         }
 
-        //using the well-known SPP UUID
+
         myUUID = UUID.fromString(UUID_STRING_WELL_KNOWN_SPP);
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -188,7 +181,7 @@ MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        //Turn ON BlueTooth if it is OFF
+
         if (!bluetoothAdapter.isEnabled()) {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
@@ -379,11 +372,14 @@ MainActivity extends AppCompatActivity {
             connectedOutputStream = out;
         }
 
-        // int twojamama = 0;
+
         String receivedTemperatureString;
         String receivedCounterString;
         String receivedOutputString;
-
+        String receivedInputString;
+        String writeRegisterValue;
+        String writeRegisterNumber;
+        int cartoon=0;
         @Override
         public void run() {
             byte[] buffer = new byte[1024];
@@ -418,13 +414,15 @@ MainActivity extends AppCompatActivity {
 
                                 D[i] = data_BT[i + 13];
                             }
-                           // A[3]='\n';
-                           // B[3]='\n';
-                           // C[3]=' ';
-                           // D[4]='\n';
+                           //Write communication declerate
+
+
+
                             receivedTemperatureString = new String(D);
                             double Dd = Double.valueOf(receivedTemperatureString);
                             Dd = (Dd/10) - 100;
+                            //DecimalFormat Df= new DecimalFormat("#.##");
+                            //Dd= Double.valueOf(Df.format(Dd));
                             receivedTemperatureString=String.valueOf(Dd);
                             Log.d("Main", "receivedTemperatureString " + receivedTemperatureString);
 
@@ -432,6 +430,7 @@ MainActivity extends AppCompatActivity {
                             receivedCounterString.replaceAll(System.getProperty("line.separator"),"");
                             Integer Cc = Integer.parseInt(receivedCounterString);
                             Cc = Cc  - 100;
+                            if(Cc==89) cartoon++;
                             receivedCounterString=String.valueOf(Cc);
                             Log.d("Main", " receivedCounterString " +  receivedCounterString);
 
@@ -442,41 +441,39 @@ MainActivity extends AppCompatActivity {
                             Log.d("Main", " receivedOutputString " +  receivedOutputString);
 
                             Log.d("Main", " RAMKA :" + receivedTemperatureString + " " + receivedCounterString + " " + receivedOutputString);
+                            receivedInputString = new String(A);
+                            Integer Aa = Integer.valueOf(receivedInputString);
+                            Aa = Aa - 100;
+                            receivedInputString=String.valueOf(Aa);
 
 
                         }
-/*
+//                        char[] data_BT_write;
+//                        data_BT_write = strReceived.toCharArray();
+//
+//                        if (data_BT[0] == '*' && data_BT[5] == '$' && data_BT[11] == '%' ) {
+//                            char[] G = new char[4];
+//                            char[] H = new char[5];
+//
+//                            for (int i = 0; i < 4; i++) {
+//                                G[i] = data_BT_write[i + 1];
+//                            }
+//                            for (int i = 0; i < 5; i++) {
+//                                H[i] = data_BT_write[i + 6];
+//                            }
+//                            writeRegisterNumber = new String(H);
+//                            Double Ee = Double.parseDouble(writeRegisterNumber);
+//                            Ee = Ee  - 10000;
+//                            writeRegisterNumber=String.valueOf(Ee);
+//
+//                            writeRegisterValue = new String(G);
+//                            Integer Ff = Integer.parseInt(writeRegisterValue);
+//                            Ff = Ff  - 10000;
+//                            writeRegisterValue=String.valueOf(Ff);
+//                        }
 
-                        final boolean receivedTemperature = strReceived.contains("SK");
 
-                        final boolean receivedCounter = strReceived.contains("XC");
 
-                        final boolean receivedOutput = strReceived.contains("GO");
-
-                        Log.d("Main", "receivedOutput :" + receivedOutput);
-
-                       // if (receivedTemperature) {
-                            Log.d("Main", "receivedTemperature :" + receivedTemperature);
-                            String[] receivedTemperatureArray = strReceived.split("K");
-                            receivedTemperatureString = receivedTemperatureArray[1];
-                        //}
-                       // else {
-
-                          //  if (receivedCounter) {
-                                Log.d("Main", "receivedCounter2 :" + receivedCounter);
-                                String[] receivedCounterArray = strReceived.split("C");
-                                receivedCounterString = receivedCounterArray[1];
-                         //   }
-                         //   else {
-                               // if (receivedOutput) {
-                                    Log.d("Main", "receivedOutput2 :" + receivedOutput);
-                                    String[] receivedOutputArray = strReceived.split("O");
-                                    //if(receivedOutputString.contains("0") ||receivedOutputString.contains("1") || receivedOutputString.contains("2")|| receivedOutputString.contains("3")|| receivedOutputString.contains("4")|| receivedOutputString.contains("5")|| receivedOutputString.contains("6")|| receivedOutputString.contains("7")|| receivedOutputString.contains("8")|| receivedOutputString.contains("9")  )
-                                    receivedOutputString = receivedOutputArray[1];
-                                    receivedOutputString = receivedOutputString.replace("\r\n", "");
-                               // }
-                        // /   }
-                        //}*/
                         runOnUiThread(new Runnable() {
 
 
@@ -485,9 +482,6 @@ MainActivity extends AppCompatActivity {
                                 // if (receivedCounter) {
                                 Log.d("Main", " Counter.setText receivedCounterString); :" + receivedCounterString);
                                 Counter.setText("Wartosc licznika: " + receivedCounterString);
-                                //  }
-                                // else {
-                                // if (receivedTemperature) {
                                 Log.d("Main", " Temperature.setText:" + receivedTemperatureString);
 
                                 Temperature.setText("Wartosc temperatury: " + receivedTemperatureString + "\n");
@@ -495,18 +489,17 @@ MainActivity extends AppCompatActivity {
                                 if (lastX >= 20000) lastX = 0;
                                 else lastX++;
                                 series.appendData(new DataPoint(lastX, currentBalanceDbl), true, 10);
-                                // } // zle zle zle
-                                //  }
-                                // if (receivedOutput) {
-                                //   Log.d("Main", "receivedOutput:" + receivedOutput);
 
+                                Cartoons.setText("Ilosc wykonanych kartonikow: "+ cartoon);
 
                                 char[] printOutputInt = new char[8];
+                                char[] printInputInt = new char[8];
                                 Log.d("Main", " receivedOutputInt = Integer.valueOf(receivedOutputString);" + receivedTemperatureString);
                                 int receivedOutputInt = Integer.valueOf(receivedOutputString);
-                                for (int i = 0; i < 8; ++i)
+                                int receivedInputInt = Integer.valueOf(receivedInputString);
+                                for (int i = 0; i < 8; ++i){
                                     printOutputInt[i] = (char) (receivedOutputInt & (1 << i));
-
+                                    printInputInt[i] = (char)  (receivedInputInt & (1 << i)); }
                                 if (printOutputInt[0] > 0)
                                     btnD1.setBackgroundColor(Color.GREEN);
                                 else btnD1.setBackgroundColor(Color.RED);
@@ -531,6 +524,31 @@ MainActivity extends AppCompatActivity {
                                 if (printOutputInt[7] > 0)
                                     btnD8.setBackgroundColor(Color.GREEN);
                                 else btnD8.setBackgroundColor(Color.RED);
+
+                                    if (printInputInt[0] > 0)
+                                        btnDD1.setBackgroundColor(Color.GREEN);
+                                    else btnDD1.setBackgroundColor(Color.RED);
+                                    if (printInputInt[1] > 0)
+                                        btnDD2.setBackgroundColor(Color.GREEN);
+                                    else btnDD2.setBackgroundColor(Color.RED);
+                                    if (printInputInt[2] > 0)
+                                        btnDD3.setBackgroundColor(Color.GREEN);
+                                    else btnDD3.setBackgroundColor(Color.RED);
+                                    if (printInputInt[3] > 0)
+                                        btnDD4.setBackgroundColor(Color.GREEN);
+                                    else btnDD4.setBackgroundColor(Color.RED);
+                                    if (printInputInt[4] > 0)
+                                        btnDD5.setBackgroundColor(Color.GREEN);
+                                    else btnDD5.setBackgroundColor(Color.RED);
+                                    if (printInputInt[5] > 0)
+                                        btnDD6.setBackgroundColor(Color.GREEN);
+                                    else btnDD6.setBackgroundColor(Color.RED);
+                                    if (printInputInt[6] > 0)
+                                        btnDD7.setBackgroundColor(Color.GREEN);
+                                    else btnDD7.setBackgroundColor(Color.RED);
+                                    if (printInputInt[7] > 0)
+                                        btnDD8.setBackgroundColor(Color.GREEN);
+                                    else btnDD8.setBackgroundColor(Color.RED);
 
                                 // }
                             }

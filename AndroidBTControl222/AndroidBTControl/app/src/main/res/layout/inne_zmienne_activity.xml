@@ -17,7 +17,7 @@
         android:id="@+id/textview1"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Data 1"
+        android:text="Wartość licznika"
         android:textSize="30dp"
         android:gravity="center"/>
     <EditText
@@ -25,13 +25,13 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@+id/textview1"
-        android:hint="Data1"/>
+        android:hint="Data"/>
 
     <TextView
         android:id="@+id/textview2"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Data 2"
+        android:text="Wartość Timera"
         android:textSize="30dp"
         android:layout_below="@+id/edittext1"
         android:gravity="center"/>

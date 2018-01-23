@@ -58,10 +58,16 @@
                 android:layout_height="44dp"
                 android:layout_below="@+id/send"
                 android:text="Inne zmienne" />
+            <Button
+                android:id="@+id/database"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_below="@+id/newactivity"
+                android:text="Database" />
 
             <Button
                 android:id="@+id/dd1"
-                android:layout_below="@+id/newactivity"
+                android:layout_below="@+id/database"
                 android:layout_marginLeft="10dp"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
@@ -71,7 +77,7 @@
             <Button
                 android:id="@+id/dd2"
                 android:layout_toRightOf="@+id/dd1"
-                android:layout_below="@+id/newactivity"
+                android:layout_below="@+id/database"
                 android:layout_marginLeft="10dp"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
@@ -80,7 +86,7 @@
             <Button
                 android:id="@+id/dd3"
                 android:layout_toRightOf="@+id/dd2"
-                android:layout_below="@+id/newactivity"
+                android:layout_below="@+id/database"
                 android:layout_marginLeft="10dp"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
@@ -89,7 +95,7 @@
             <Button
                 android:id="@+id/dd4"
                 android:layout_toRightOf="@+id/dd3"
-                android:layout_below="@+id/newactivity"
+                android:layout_below="@+id/database"
                 android:layout_marginLeft="10dp"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
@@ -98,7 +104,7 @@
             <Button
                 android:id="@+id/dd5"
                 android:layout_toRightOf="@+id/dd4"
-                android:layout_below="@+id/newactivity"
+                android:layout_below="@+id/database"
                 android:layout_marginLeft="10dp"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
@@ -107,7 +113,7 @@
             <Button
                 android:id="@+id/dd6"
                 android:layout_toRightOf="@+id/dd5"
-                android:layout_below="@+id/newactivity"
+                android:layout_below="@+id/database"
                 android:layout_marginLeft="10dp"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
@@ -116,7 +122,7 @@
             <Button
                 android:id="@+id/dd7"
                 android:layout_toRightOf="@+id/dd6"
-                android:layout_below="@+id/newactivity"
+                android:layout_below="@+id/database"
                 android:layout_marginLeft="10dp"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
@@ -125,39 +131,141 @@
             <Button
                 android:id="@+id/dd8"
                 android:layout_toRightOf="@+id/dd7"
-                android:layout_below="@+id/newactivity"
+                android:layout_below="@+id/database"
                 android:layout_marginLeft="10dp"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@android:color/holo_red_light"
                 android:text="Q8" />
+            <Button
+                android:id="@+id/ddd1"
+                android:layout_below="@+id/dd1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@android:color/holo_red_light"
+                android:text="I1" />
+            <Button
+                android:id="@+id/ddd2"
+                android:layout_below="@+id/dd2"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/ddd1"
+                android:layout_marginTop="5dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@android:color/holo_red_light"
+                android:text="I2" />
+            <Button
+                android:id="@+id/ddd3"
+                android:layout_below="@+id/dd3"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/ddd2"
+                android:layout_marginTop="5dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@android:color/holo_red_light"
+                android:text="I3" />
+            <Button
+                android:id="@+id/ddd4"
+                android:layout_below="@+id/dd4"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/ddd3"
+                android:layout_marginTop="5dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@android:color/holo_red_light"
+                android:text="I4" />
+            <Button
+                android:id="@+id/ddd5"
+                android:layout_below="@+id/dd5"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/ddd4"
+                android:layout_marginTop="5dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@android:color/holo_red_light"
+                android:text="I5" />
+            <Button
+                android:id="@+id/ddd6"
+                android:layout_below="@+id/dd6"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/ddd5"
+                android:layout_marginTop="5dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@android:color/holo_red_light"
+                android:text="I6" />
+            <Button
+                android:id="@+id/ddd7"
+                android:layout_below="@+id/dd7"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/ddd6"
+                android:layout_marginTop="5dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@android:color/holo_red_light"
+                android:text="I7" />
+            <Button
+                android:id="@+id/ddd8"
+                android:layout_below="@+id/dd8"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/ddd7"
+                android:layout_marginTop="5dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@android:color/holo_red_light"
+                android:text="I8" />
+
             <TextView
                 android:id="@+id/ramka"
-                android:layout_below="@+id/dd5"
+                android:layout_below="@+id/ddd5"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:hint="ramka"
                 android:textSize="20dp" />
 
+            <Switch
+                android:id="@+id/switch1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ramka"
+                android:layout_marginTop="51dp"
+                android:layout_toEndOf="@+id/ddd4"
+                android:layout_toRightOf="@+id/ddd4"
+                android:text="Odbior" />
+
+                />
+
             <TextView
                 android:id="@+id/counter"
-                android:layout_below="@+id/ramka"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/switch1"
                 android:hint="..."
                 android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/temperature"
-                android:layout_below="@id/counter"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
+                android:layout_below="@id/counter"
+                android:hint="..."
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/cartoons"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_below="@id/temperature"
                 android:hint="..."
                 android:textSize="20dp" />
 
             <com.jjoe64.graphview.GraphView
                 android:id="@+id/graph"
-                android:layout_below="@id/temperature"
+                android:layout_below="@id/cartoons"
                 android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="300dp" />
